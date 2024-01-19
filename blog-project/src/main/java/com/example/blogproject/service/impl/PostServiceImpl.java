@@ -50,9 +50,8 @@ public class PostServiceImpl implements PostService {
     public List<PostDto> getAllPosts() {
         List<Post> posts = postRepository.findAll();
 
-        posts.stream()
-                .map(post -> mapToDto(post)).collect(Collectors.toList());
-        return null;
+        return posts.stream().map(post -> mapToDto(post)).collect(Collectors.toList());
+
     }
 
 
