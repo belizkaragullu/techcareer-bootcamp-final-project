@@ -23,8 +23,8 @@ public class PostController {
     }
 
     @GetMapping("/get")
-    public List<PostDto> getAllPosts(){
-        return postService.getAllPosts();
+    public ResponseEntity<List<PostDto>> getAllPosts(){
+        return ResponseEntity.ok(postService.getAllPosts());
     }
 
     @GetMapping("/{id}")
