@@ -1,6 +1,7 @@
 package com.example.blogproject.service.impl;
 
 import com.example.blogproject.entity.Post;
+import com.example.blogproject.exception.ResourceNotFoundException;
 import com.example.blogproject.payload.PostDto;
 import com.example.blogproject.repository.PostRepository;
 import com.example.blogproject.service.PostService;
@@ -54,7 +55,11 @@ public class PostServiceImpl implements PostService {
 
     }
 
-
+    @Override
+    public PostDto getPostById(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
+        return mapToDto(post);
+    }
 
 
 }
