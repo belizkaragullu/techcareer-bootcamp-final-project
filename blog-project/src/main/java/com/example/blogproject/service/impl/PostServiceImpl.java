@@ -24,13 +24,19 @@ public class PostServiceImpl implements PostService {
 
         return postDto;
     }
+    private Post mapToEntity(PostDto postDto){
+        Post post = new Post();
+        post.setId(postDto.getId());
+        post.setContent(postDto.getContent());
+        post.setTitle(postDto.getTitle());
+        post.setDescription(postDto.getDescription());
+
+        return post;
+    }
     @Override
     public PostDto createPost(PostDto postDto) {
 
-        Post post = new Post();
-        post.setTitle(postDto.getTitle());
-        post.setDescription(postDto.getDescription());
-        post.setContent(postDto.getContent());
+        Post post = mapToEntity(postDto);
 
         Post newPost = postRepository.save(post);
 
@@ -38,6 +44,8 @@ public class PostServiceImpl implements PostService {
 
         return postResponse;
     }
+
+
 
 
 }
