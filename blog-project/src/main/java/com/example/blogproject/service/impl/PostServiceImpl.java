@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +44,15 @@ public class PostServiceImpl implements PostService {
         PostDto postResponse = mapToDto(post);
 
         return postResponse;
+    }
+
+    @Override
+    public List<PostDto> getAllPosts() {
+        List<Post> posts = postRepository.findAll();
+
+        posts.stream()
+                .map(post -> mapToDto(post)).collect(Collectors.toList());
+        return null;
     }
 
 
