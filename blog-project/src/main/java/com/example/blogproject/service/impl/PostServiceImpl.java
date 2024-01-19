@@ -7,11 +7,23 @@ import com.example.blogproject.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+
+    private PostDto mapToDto(Post post){
+        PostDto postDto = new PostDto();
+        postDto.setContent(post.getContent());
+        postDto.setDescription(post.getDescription());
+        postDto.setTitle(post.getTitle());
+        postDto.setId(post.getId());
+
+        return postDto;
+    }
     @Override
     public PostDto createPost(PostDto postDto) {
 
@@ -22,12 +34,10 @@ public class PostServiceImpl implements PostService {
 
         Post newPost = postRepository.save(post);
 
-        PostDto postResponse = new PostDto();
-        postResponse.setId(newPost.getId());
-        postResponse.setTitle(newPost.getTitle());
-        postResponse.setDescription(newPost.getDescription());
-        postResponse.setContent(newPost.getContent());
+        PostDto postResponse = mapToDto(post);
 
         return postResponse;
     }
+
+
 }
