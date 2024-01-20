@@ -3,6 +3,7 @@ package com.example.blogproject.service.impl;
 import com.example.blogproject.entity.Post;
 import com.example.blogproject.exception.ResourceNotFoundException;
 import com.example.blogproject.payload.PostDto;
+import com.example.blogproject.payload.PostResponse;
 import com.example.blogproject.repository.PostRepository;
 import com.example.blogproject.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +52,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPosts(int pageNumber, int pageSize ) {
+    public PostResponse getAllPosts(int pageNumber, int pageSize ) {
         //pageable object
         Pageable pageable = PageRequest.of(pageNumber,pageSize);
 
@@ -60,8 +61,15 @@ public class PostServiceImpl implements PostService {
         //to get content
         List<Post> listOfPost = posts.getContent();
 
-        return listOfPost.stream().map(post -> mapToDto(post)).collect(Collectors.toList());
+        List<PostDto> content = listOfPost.stream().map(post -> mapToDto(post)).collect(Collectors.toList());
 
+        PostResponse postResponse = new PostResponse();
+        postResponse.setContent(content); //postDto list
+        postResponse.setPageNumber(posts.getNumber()); //page method
+        postResponse.setPageSize(posts.getSize());
+        postResponse.setTotalElements(posts.getTotalElements());
+        postResponse.setTotalPages(posts.getTotalPages());
+        postResponse.setLast(posts.isLast());
     }
 
     @Override
