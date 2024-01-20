@@ -70,6 +70,8 @@ public class PostServiceImpl implements PostService {
         postResponse.setTotalElements(posts.getTotalElements());
         postResponse.setTotalPages(posts.getTotalPages());
         postResponse.setLast(posts.isLast());
+
+        return postResponse;
     }
 
     @Override
