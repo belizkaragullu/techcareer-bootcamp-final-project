@@ -2,12 +2,14 @@ package com.example.blogproject.service.impl;
 
 import com.example.blogproject.entity.Comment;
 import com.example.blogproject.entity.Post;
+import com.example.blogproject.exception.BlogException;
 import com.example.blogproject.exception.ResourceNotFoundException;
 import com.example.blogproject.payload.CommentDto;
 import com.example.blogproject.repository.CommentRepository;
 import com.example.blogproject.repository.PostRepository;
 import com.example.blogproject.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -61,5 +63,18 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> comments = commentRepository.findByPostId(postId);
 
         return comments.stream().map(comment -> mapToDto(comment)).collect(Collectors.toList());
+    }
+
+    @Override
+    public CommentDto getCommentById(Long postId, Long commentId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post","id", postId));
+
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment","id", commentId));
+
+        if(!comment.getPost().getId().equals(post.getId())){
+            throw new BlogException(HttpStatus.BAD_REQUEST, "This comment doesn't belong to this post");
+        }
+
+        return mapToDto(comment);
     }
 }
