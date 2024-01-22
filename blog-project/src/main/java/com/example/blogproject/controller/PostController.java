@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/posts")
+@RequestMapping("/api/posts")
 public class PostController {
 
     //interface to maintain loosecoupling
@@ -25,7 +25,7 @@ public class PostController {
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<PostResponse> getAllPosts(@RequestParam(value = "pageNumber", defaultValue = PostConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNumber,
                                                     @RequestParam(value = "pageSize", defaultValue =PostConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
                                                     @RequestParam(value = "sortBy", defaultValue =PostConstants.DEFAULT_SORT_BY, required = false) String sortBy){
@@ -37,7 +37,7 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostById(id));
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto,
                                               @PathVariable(name= "id") Long id){
         PostDto postResponse = postService.updatePost(postDto,id);
