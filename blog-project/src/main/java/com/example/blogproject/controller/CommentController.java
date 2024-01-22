@@ -19,7 +19,6 @@ public class CommentController {
     @PostMapping("/posts/{postId}/comments")
     public ResponseEntity<CommentDto> createComment(@PathVariable(value= "postId") Long postId,
                                                     @RequestBody CommentDto commentDto){
-
         return new ResponseEntity<>(commentService.createComment(postId,commentDto), HttpStatus.CREATED);
     }
 
@@ -32,6 +31,14 @@ public class CommentController {
     public ResponseEntity<CommentDto> getCommentById(@PathVariable(value= "postId") Long postId,
                                                      @PathVariable(value= "commentId") Long commentId){
         return new ResponseEntity<>(commentService.getCommentById(postId,commentId), HttpStatus.OK);
+    }
+    @PutMapping("/posts/{postId}/comments/{commentId}")
+    public ResponseEntity<CommentDto> updateComment(@PathVariable(value= "postId") Long postId,
+                                                    @PathVariable(value= "commentId") Long commentId,
+                                                    @RequestBody CommentDto commentDto){
+        CommentDto updatedComment = commentService.updateComment(postId,commentId,commentDto);
+
+        return new ResponseEntity<>(updatedComment, HttpStatus.OK);
     }
 
 }
