@@ -3,6 +3,7 @@ package com.example.blogproject.controller;
 import com.example.blogproject.payload.PostDto;
 import com.example.blogproject.payload.PostResponse;
 import com.example.blogproject.service.PostService;
+import com.example.blogproject.utils.PostConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -25,9 +26,9 @@ public class PostController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<PostResponse> getAllPosts(@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
-                                                    @RequestParam(value = "pageSize", defaultValue ="10", required = false) int pageSize,
-                                                    @RequestParam(value = "sortBy", defaultValue ="id", required = false) String sortBy){
+    public ResponseEntity<PostResponse> getAllPosts(@RequestParam(value = "pageNumber", defaultValue = PostConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNumber,
+                                                    @RequestParam(value = "pageSize", defaultValue =PostConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+                                                    @RequestParam(value = "sortBy", defaultValue =PostConstants.DEFAULT_SORT_BY, required = false) String sortBy){
         return ResponseEntity.ok(postService.getAllPosts(pageNumber, pageSize, sortBy));
     }
 
