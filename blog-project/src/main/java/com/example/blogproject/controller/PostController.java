@@ -4,6 +4,7 @@ import com.example.blogproject.payload.PostDto;
 import com.example.blogproject.payload.PostResponse;
 import com.example.blogproject.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +26,9 @@ public class PostController {
 
     @GetMapping("/get")
     public ResponseEntity<PostResponse> getAllPosts(@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
-                                                    @RequestParam(value = "pageSize", defaultValue ="10", required = false) int pageSize){
-        return ResponseEntity.ok(postService.getAllPosts(pageNumber, pageSize));
+                                                    @RequestParam(value = "pageSize", defaultValue ="10", required = false) int pageSize,
+                                                    @RequestParam(value = "sortBy", defaultValue ="id", required = false) String sortBy){
+        return ResponseEntity.ok(postService.getAllPosts(pageNumber, pageSize, sortBy));
     }
 
     @GetMapping("/{id}")
