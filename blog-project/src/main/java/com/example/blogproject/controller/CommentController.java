@@ -18,7 +18,7 @@ public class CommentController {
     public ResponseEntity<CommentDto> createComment(@PathVariable(value= "postId") Long postId,
                                                     @RequestBody CommentDto commentDto){
 
-        return new ResponseEntity<>(commentService.createComment(postId,commentDto), HttpStatus.OK);
+        return new ResponseEntity<>(commentService.createComment(postId,commentDto), HttpStatus.CREATED);
     }
 
 
