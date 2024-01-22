@@ -22,7 +22,7 @@ public class CommentServiceImpl implements CommentService {
 
         commentDto.setId(comment.getId());
         commentDto.setName(comment.getName());
-        commentDto.setText(commentDto.getText());
+        commentDto.setText(comment.getText());
         commentDto.setEmail(comment.getEmail());
 
         return commentDto;
