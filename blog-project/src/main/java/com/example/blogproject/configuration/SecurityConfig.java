@@ -2,6 +2,7 @@ package com.example.blogproject.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -30,7 +31,7 @@ public class SecurityConfig {
 
         //disable csrf (web application security measure)
         http.csrf((csrf) -> csrf.disable())
-                .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated()) //configure all http requests to be authenticated
+                .authorizeHttpRequests((authorize) -> authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll().anyRequest().authenticated()) //provide all users to access GET endpoints
 
                 .httpBasic(Customizer.withDefaults()); //username-password
 
