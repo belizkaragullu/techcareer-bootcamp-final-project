@@ -54,7 +54,7 @@ public class SecurityConfig {
 
     //create multiple users, assign role to each user,store it in a memory object
     // implement role based auth
-    @Bean
+  /*  @Bean
     public UserDetailsService userDetailsService(){
         UserDetails beliz = User.builder()
                 .username("beliz")
@@ -71,5 +71,5 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(beliz,admin);
 
     }
-
+*/
 }
