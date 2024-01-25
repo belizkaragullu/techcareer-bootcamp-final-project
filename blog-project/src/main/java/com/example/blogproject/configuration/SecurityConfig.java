@@ -1,9 +1,12 @@
 package com.example.blogproject.configuration;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -14,15 +17,24 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+@RequiredArgsConstructor
 @Configuration
 @EnableMethodSecurity //enable pre auth, post auth, pre filter, post filter
 public class SecurityConfig {
 
-    //uses bycrypt algho to encode password
+    private final UserDetailsService userDetailsService; // for db auth
 
     @Bean
     public static PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder();   //uses bycrypt algho to encode password
+    }
+
+    //AuthenticationManager will use UsedDetailService to get user from the database
+    //AuthenticationManager will use bcrypt password encoder to encode and decode
+    //It automatically uses UserDetailService and PasswordEncoder without specify
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
     }
 
     //SecurityFilterChain is interface and default security filter chain is implementation class
