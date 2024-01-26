@@ -7,9 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +17,7 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
+    //only admin can create category
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<CategoryDto> addCategory(CategoryDto categoryDto){
@@ -39,5 +38,13 @@ public class CategoryController {
     @GetMapping
     public ResponseEntity<List<CategoryDto>> getCategories(){
         return ResponseEntity.ok(categoryService.getAllCategories());
+    }
+
+    //only admin can update category
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("{id}")
+    public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto,
+                                                      @PathVariable Long categoryId){
+        return ResponseEntity.ok(categoryService.updateCategory(categoryDto,categoryId));
     }
 }
