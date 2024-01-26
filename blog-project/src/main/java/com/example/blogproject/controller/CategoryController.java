@@ -28,8 +28,8 @@ public class CategoryController {
     }
 
     //in security config get methods provides access to all the users
-    @GetMapping
-    public ResponseEntity<CategoryDto> getCategory(Long categoryId){
+    @GetMapping("{id}")
+    public ResponseEntity<CategoryDto> getCategoryById(@PathVariable Long categoryId){
 
         CategoryDto categoryDto =categoryService.getCategory((categoryId));
 
