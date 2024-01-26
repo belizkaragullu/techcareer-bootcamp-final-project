@@ -19,7 +19,18 @@ public class CategoryController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<CategoryDto> addCategory(CategoryDto categoryDto){
+
         CategoryDto savedCategory = categoryService.addCategory(categoryDto);
+
         return new ResponseEntity<>(savedCategory, HttpStatus.CREATED);
     }
+
+    //in security config get methods provides access to all the users
+    public ResponseEntity<CategoryDto> getCategory(Long categoryId){
+
+        CategoryDto categoryDto =categoryService.getCategory((categoryId));
+
+        return ResponseEntity.ok(categoryDto);
+    }
+
 }

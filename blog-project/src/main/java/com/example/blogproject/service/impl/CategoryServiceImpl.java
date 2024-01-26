@@ -1,6 +1,7 @@
 package com.example.blogproject.service.impl;
 
 import com.example.blogproject.entity.Category;
+import com.example.blogproject.exception.ResourceNotFoundException;
 import com.example.blogproject.payload.CategoryDto;
 import com.example.blogproject.repository.CategoryRepository;
 import com.example.blogproject.service.CategoryService;
@@ -20,5 +21,13 @@ public class CategoryServiceImpl implements CategoryService {
         Category savedCategory = categoryRepository.save(category);
 
         return modelMapper.map(savedCategory,CategoryDto.class);
+    }
+
+    @Override
+    public CategoryDto getCategory(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "id" , categoryId));
+        return modelMapper.map(category, CategoryDto.class);
+
     }
 }
