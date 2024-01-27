@@ -21,7 +21,7 @@ public class CategoryController {
     //only admin can create category
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<CategoryDto> addCategory(CategoryDto categoryDto){
+    public ResponseEntity<CategoryDto> addCategory(@RequestBody CategoryDto categoryDto){
 
         CategoryDto savedCategory = categoryService.addCategory(categoryDto);
 
@@ -30,9 +30,9 @@ public class CategoryController {
 
     //in security config get methods provides access to all the users
     @GetMapping("{id}")
-    public ResponseEntity<CategoryDto> getCategoryById(@PathVariable Long categoryId){
+    public ResponseEntity<CategoryDto> getCategoryById(@PathVariable("id") Long categoryId){
 
-        CategoryDto categoryDto =categoryService.getCategory((categoryId));
+        CategoryDto categoryDto =categoryService.getCategory(categoryId);
 
         return ResponseEntity.ok(categoryDto);
     }
@@ -45,13 +45,13 @@ public class CategoryController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("{id}")
     public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto,
-                                                      @PathVariable Long categoryId){
+                                                      @PathVariable("id") Long categoryId){
         return ResponseEntity.ok(categoryService.updateCategory(categoryDto,categoryId));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteCategory(Long categoryId){
+    public ResponseEntity<String> deleteCategory(@PathVariable("id") Long categoryId){
         categoryService.deleteCategory(categoryId);
 
         return ResponseEntity.ok("Category has been deleted");

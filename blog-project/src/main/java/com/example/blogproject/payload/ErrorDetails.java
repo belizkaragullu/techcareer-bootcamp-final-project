@@ -2,10 +2,11 @@ package com.example.blogproject.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.Date;
 @AllArgsConstructor
-@Data
+@Getter
 public class ErrorDetails {
 
     private Date timeStamp;

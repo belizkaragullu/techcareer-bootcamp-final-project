@@ -18,8 +18,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private ModelMapper modelMapper;
+
     @Override
     public CategoryDto addCategory(CategoryDto categoryDto) {
+
         Category category =modelMapper.map(categoryDto, Category.class);
         Category savedCategory = categoryRepository.save(category);
 
@@ -28,6 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto getCategory(Long categoryId) {
+
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id" , categoryId));
 
@@ -36,6 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> getAllCategories() {
+
         List<Category> categories = categoryRepository.findAll();
 
         return categories.stream()
@@ -45,19 +49,21 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto updateCategory(CategoryDto categoryDto, Long categoryId) {
+
         Category category =categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
 
         category.setName(categoryDto.getName());
         category.setId(categoryDto.getId());
 
-        Category result = categoryRepository.save(category);
+        Category updatedCategory = categoryRepository.save(category);
 
-        return modelMapper.map(result, CategoryDto.class);
+        return modelMapper.map(updatedCategory, CategoryDto.class);
     }
 
     @Override
     public void deleteCategory(Long categoryId) {
+
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id",categoryId));
 
