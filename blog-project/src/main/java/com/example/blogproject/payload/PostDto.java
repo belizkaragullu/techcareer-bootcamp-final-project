@@ -10,5 +10,6 @@ public class PostDto {
     private String description;
     private String content;
     private String title;
-    private Set<CommentDto> commentDtoSet;
+    private Set<CommentDto> comments;
+    private Long categoryId;
 }
