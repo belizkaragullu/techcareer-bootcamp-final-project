@@ -26,6 +26,7 @@ public class SecurityConfig {
 
     @Bean
     public static PasswordEncoder passwordEncoder(){
+
         return new BCryptPasswordEncoder();   //uses bycrypt algho to encode password
     }
 
@@ -33,7 +34,8 @@ public class SecurityConfig {
     //AuthenticationManager will use bcrypt password encoder to encode and decode
     //It automatically uses UserDetailService and PasswordEncoder without specify
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception { //for db auth
+
         return configuration.getAuthenticationManager();
     }
 
@@ -45,7 +47,9 @@ public class SecurityConfig {
 
         //disable csrf (web application security measure)
         http.csrf((csrf) -> csrf.disable())
-                .authorizeHttpRequests((authorize) -> authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll().anyRequest().authenticated()) //provide all users to access GET endpoints
+                .authorizeHttpRequests((authorize) -> authorize
+                        //.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                        .anyRequest().authenticated()) //provide all users to access GET endpoints
 
                 .httpBasic(Customizer.withDefaults()); //username-password
 
