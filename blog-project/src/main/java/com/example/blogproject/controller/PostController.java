@@ -1,7 +1,7 @@
 package com.example.blogproject.controller;
 
 import com.example.blogproject.payload.PostDto;
-import com.example.blogproject.payload.PostResponse;
+import com.example.blogproject.response.PostResponse;
 import com.example.blogproject.service.PostService;
 import com.example.blogproject.utils.PostConstants;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +24,7 @@ public class PostController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto){
+
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
 
@@ -31,14 +32,17 @@ public class PostController {
     public ResponseEntity<PostResponse> getAllPosts(@RequestParam(value = "pageNumber", defaultValue = PostConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNumber,
                                                     @RequestParam(value = "pageSize", defaultValue =PostConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
                                                     @RequestParam(value = "sortBy", defaultValue =PostConstants.DEFAULT_SORT_BY, required = false) String sortBy){
+
         return ResponseEntity.ok(postService.getAllPosts(pageNumber, pageSize, sortBy));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PostDto> getPostById(@PathVariable(name = "id") Long id){
+
         return ResponseEntity.ok(postService.getPostById(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto,
                                               @PathVariable(name= "id") Long id){
@@ -47,10 +51,18 @@ public class PostController {
         return new ResponseEntity<>(postResponse,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deletePost(@PathVariable(name ="id") Long id){
         postService.deletePostById(id);
 
         return new ResponseEntity<>("Post deleted successfully", HttpStatus.OK);
     }
+    @GetMapping("/category/{id}")
+    public ResponseEntity<List<PostDto>> getPostsByCategory(@PathVariable("id") Long categoryId){
+        List<PostDto> postDtos = postService.getPostsByCategory(categoryId);
+
+        return ResponseEntity.ok(postDtos);
+    }
+
 }
