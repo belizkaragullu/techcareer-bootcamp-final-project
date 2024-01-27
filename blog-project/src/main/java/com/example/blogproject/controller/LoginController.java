@@ -5,10 +5,12 @@ import com.example.blogproject.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RestController("api/auth")
+@RestController
+@RequestMapping("api/auth")
 public class LoginController {
 
     private final LoginService loginService;
