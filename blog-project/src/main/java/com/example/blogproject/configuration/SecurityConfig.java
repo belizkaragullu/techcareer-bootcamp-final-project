@@ -22,13 +22,14 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity //enable pre auth, post auth, pre filter, post filter
 public class SecurityConfig {
 
-    private final UserDetailsService userDetailsService; // for db auth
-
     @Bean
     public static PasswordEncoder passwordEncoder(){
 
         return new BCryptPasswordEncoder();   //uses bycrypt algho to encode password
     }
+    /*
+    private final UserDetailsService userDetailsService; // for db auth
+
 
     //AuthenticationManager will use UsedDetailService to get user from the database
     //AuthenticationManager will use bcrypt password encoder to encode and decode
@@ -39,16 +40,17 @@ public class SecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
+     */
+
     //SecurityFilterChain is interface and default security filter chain is implementation class
     //SecurityFilterChain enables to security settings and configuration
-
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception { //bean
 
         //disable csrf (web application security measure)
         http.csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> authorize
-                        //.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
                         .anyRequest().authenticated()) //provide all users to access GET endpoints
 
                 .httpBasic(Customizer.withDefaults()); //username-password
@@ -58,7 +60,7 @@ public class SecurityConfig {
 
     //create multiple users, assign role to each user,store it in a memory object
     // implement role based auth
-  /*  @Bean
+    @Bean
     public UserDetailsService userDetailsService(){
         UserDetails beliz = User.builder()
                 .username("beliz")
@@ -67,13 +69,13 @@ public class SecurityConfig {
                 .build();
 
         UserDetails admin = User.builder()
-                .username("admin")
+                .username("user")
                 .password(passwordEncoder().encode("1a2b3c"))
-                .roles("ADMIN")
+                .roles("USER")
                 .build();
 
         return new InMemoryUserDetailsManager(beliz,admin);
 
     }
-*/
+
 }

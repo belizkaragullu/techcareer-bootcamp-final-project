@@ -16,12 +16,14 @@ import java.util.stream.Collectors;
 
 import static com.example.blogproject.configuration.SecurityConfig.passwordEncoder;
 
-//database auth
+//DB AUTH
 
 @Service
 @RequiredArgsConstructor
-public class MyUserDetailService implements UserDetailsService {
-
+public class MyUserDetailService
+//implements UserDetailsService
+{
+/*
     private final UserRepository userRepository;
 
     @Override
@@ -44,4 +46,6 @@ public class MyUserDetailService implements UserDetailsService {
         user.getPassword(),
         authorities);
     }
+
+ */
 }
