@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     @Override
     public CategoryDto addCategory(CategoryDto categoryDto) {
